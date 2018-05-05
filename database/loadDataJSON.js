@@ -1,10 +1,13 @@
 const fs = require('fs');
 const photoRefs = require('./photoRefs.json');
 const faker = require('faker');
+// const ApateezPhotos = require('./index.js');
+
+// const {MongoClient} = require('mongodb');
 
 // TO SEED DATA::
 // mongoimport --db apateez-gallery --collection Places --file allData.json
-// --jsonArray --numInsertionWorkers 10 | gnomon
+// --jsonArray --numInsertionWorkers 16 | gnomon
 
 // const entries10k = 10000;
 // const entries100k = 100000;
@@ -52,3 +55,26 @@ const generateJSON = () => {
 };
 
 generateJSON();
+
+// async function seedDB() {
+//   let counter = 1;
+//   for (let j = 0; j < 10000; j += 1) {
+//     const seedArr = [];
+//     for (let i = 0; i < 1000; i += 1) {
+//       const photosArr = [];
+//       for (let l = 0; l < 5; l += 1) {
+//         photosArr.push(photoRefs[Math.floor(Math.random() * 1000)]);
+//       }
+//       const obj = {
+//         name: faker.company.companyName,
+//         place_id: counter,
+//         photos: photosArr,
+//       };
+//       seedArr.push(obj);
+//       counter += 1;
+//     }
+//     await ApateezPhotos.places.insertMany(seedArr);
+//   }
+// }
+
+// seedDB();
