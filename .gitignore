@@ -1,0 +1,25 @@
+
+## MAC files ##
+.DS_Store
+
+## NPM ##
+npm
+npm-debug.log
+node_modules/
+
+## OUT OF DATE FILES ##
+*.rdb
+
+## Data Files ##
+allData.json
+photoRefs.json
+195-Zagat-AllData.json
+
+
+## Webpack bundle ##
+/client/dist/bundle.js
+
+pids
+*.pid
+logs
+*.log
