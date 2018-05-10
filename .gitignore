@@ -12,8 +12,10 @@ node_modules/
 
 ## Data Files ##
 allData.json
+allData.csv
 photoRefs.json
 195-Zagat-AllData.json
+apateezImages/
 
 ## test coverage
 coverage/
