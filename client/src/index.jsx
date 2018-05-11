@@ -19,7 +19,7 @@ class ApateezGallery extends React.Component {
       images: [],
       restaurantName: '',
       fullGalleryGrid: false,
-      place_id: 'ChIJFUBxSY6AhYARwOaLV7TsLjw',
+      place_id: '1',
     };
     this.getRequestWithId = this.getRequestWithId.bind(this);
     this.clickHandle = this.clickHandle.bind(this);
@@ -37,17 +37,17 @@ class ApateezGallery extends React.Component {
     this.getRequestWithId(id);
   }
   gotoHotNew() {
-    location.href = '/restaurants/' + 'ChIJA8_SN2eAhYARCIvEx44Zvfw';
+    location.href = '/restaurants/' + '2342';
   }
   gotoCitysBest() {
-    location.href = '/restaurants/' + 'ChIJUUjhfoaAhYARRuSNp1R18vs';
+    location.href = '/restaurants/' + '234';
   }
   searchRestaurant(searchValue) {
     $.ajax({
       url: BASE_URL + searchValue,
       method: 'GET',
       success(data) {
-        location.href = `/restaurants/${  data.place_id}`;
+        location.href = `/restaurants/${data.place_id}`;
         console.log(data.place_id);
       },
     });
@@ -81,14 +81,14 @@ class ApateezGallery extends React.Component {
     } = this.state;
     return (
       <div>
-             <Social />
+        <Social />
 
-             <Header searchRestaurant={this.searchRestaurant} gotoHotNew={this.gotoHotNew} gotoCitysBest={this.gotoCitysBest} />
+        <Header searchRestaurant={this.searchRestaurant} gotoHotNew={this.gotoHotNew} gotoCitysBest={this.gotoCitysBest} />
 
-             <div>
+        <div>
           <Modal
-                isOpen={fullGalleryGrid}
-                style={{
+            isOpen={fullGalleryGrid}
+            style={{
                   overlay: {
                     position: 'fixed',
                     top: 0,
@@ -117,39 +117,39 @@ class ApateezGallery extends React.Component {
                   },
 
                 }}
-              >
-                <div className="restaurantName">{restaurantName.toUpperCase()}</div>
-                <FullGalleryOpenGrid images={images} clickHandle={this.clickHandle} />
-                <i className=" cancel small material-icons " onClick={this.clickView}>cancel</i>
-              </Modal>
+          >
+            <div className="restaurantName">{restaurantName.toUpperCase()}</div>
+            <FullGalleryOpenGrid images={images} clickHandle={this.clickHandle} />
+            <i className=" cancel small material-icons " onClick={this.clickView}>cancel</i>
+          </Modal>
         </div>
-             <OpeningPageGalleryView images={images} clickHandle={this.clickHandle} clickView={this.clickView} />
+        <OpeningPageGalleryView images={images} clickHandle={this.clickHandle} clickView={this.clickView} />
 
 
-             {isOpen && (
-          <div>
+        {isOpen && (
+        <div>
 
-            <Lightbox
-              enableZoom={false}
-              toolbarButtons={[<span className="restaurantN">{restaurantName.toUpperCase()}</span>, <span className="photoNum">{`${photoIndex + 1} of ${images.length}`}</span>, <i onClick={this.clickHandleView} className="ril__toolbarItem apps small material-icons">apps</i>]}
-              mainSrc={images[photoIndex]}
-              nextSrc={images[(photoIndex + 1) % images.length]}
-              prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-              onCloseRequest={() => this.setState({ isOpen: false })}
-              onMovePrevRequest={() =>
+          <Lightbox
+            enableZoom={false}
+            toolbarButtons={[<span className="restaurantN">{restaurantName.toUpperCase()}</span>, <span className="photoNum">{`${photoIndex + 1} of ${images.length}`}</span>, <i onClick={this.clickHandleView} className="ril__toolbarItem apps small material-icons">apps</i>]}
+            mainSrc={images[photoIndex]}
+            nextSrc={images[(photoIndex + 1) % images.length]}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            onCloseRequest={() => this.setState({ isOpen: false })}
+            onMovePrevRequest={() =>
               this.setState({
                 photoIndex: (photoIndex + images.length - 1) % images.length,
               })
             }
-              onMoveNextRequest={() =>
+            onMoveNextRequest={() =>
               this.setState({
                 photoIndex: (photoIndex + 1) % images.length,
               })
             }
-            />
-          </div>
+          />
+        </div>
         )}
-           </div>
+      </div>
     );
   }
 }
