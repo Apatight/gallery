@@ -14,15 +14,19 @@ mongoose.connection.on('error', (err) => {
 });
 
 const Places = new mongoose.Schema({
-  place_id: { unique: true, type: String },
+  place_id: { unique: true, type: Number },
   name: String,
   photos: Array,
 });
 
-const ApateezPhotos = mongoose.model('Places', Places);
+const ApateezPhotos = mongoose.model('place', Places);
 
-const findbyId = id => ApateezPhotos.findOne({ place_id: id });
+const findOne = (id, cb) => ApateezPhotos.findOne({ place_id: id });
 
-const insertOne = place => ApateezPhotos.create(place);
+const insertOne = (place, cb) => ApateezPhotos.create(place);
 
-exports.ApateezPhotos = ApateezPhotos;
+module.exports = {
+  ApateezPhotos,
+  findOne,
+  insertOne,
+};

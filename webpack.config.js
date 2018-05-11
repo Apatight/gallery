@@ -5,11 +5,11 @@ const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
-  plugins: [
-    new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify('http://54.191.4.57:3003'),
-    }),
-  ],
+  // plugins: [
+  //   new webpack.DefinePlugin({
+  //     BASE_URL: JSON.stringify('http://54.191.4.57:3003'),
+  //   }),
+  // ],
   entry: `${SRC_DIR}/index.jsx`,
   output: {
     filename: 'bundle.js',
