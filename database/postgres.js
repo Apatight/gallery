@@ -16,7 +16,8 @@ const cn = {
 
 const db = pgp(cn);
 
-db.any('SELECT * FROM gallery WHERE place_id = $1', [true])
-  .then(data => console.log('DATA:', data))
-  .catch(error => console.log('ERROR:', error))
-  .finally(db.$pool.end);
+const findOne = id => db.any('SELECT * FROM gallery WHERE place_id = $1', id);
+
+module.exports = {
+  findOne,
+};
