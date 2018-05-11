@@ -21,7 +21,7 @@ const Places = new mongoose.Schema({
 
 const ApateezPhotos = mongoose.model('place', Places);
 
-const findOne = (id, cb) => ApateezPhotos.findOne({ place_id: id });
+const findOne = id => ApateezPhotos.findOne({ place_id: id });
 
 const insertOne = (place, cb) => ApateezPhotos.create(place);
 
