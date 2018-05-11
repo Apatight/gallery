@@ -10,8 +10,6 @@ const cn = {
   host: 'localhost',
   port: 5432,
   database: 'apateez',
-  // user: 'myUser',
-  // password: 'myPassword',
 };
 
 const db = pgp(cn);

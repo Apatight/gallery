@@ -1,4 +1,7 @@
+require('newrelic');
 const express = require('express');
+const morgan = require('morgan');
+const logger = require('./logger');
 const path = require('path');
 const bodyParser = require('body-parser');
 // var requestImg = require('request').defaults({ encoding: null });
@@ -8,6 +11,21 @@ const db = require('../database/postgres.js');
 
 const app = express();
 const PORT = 3002;
+
+app.use(morgan('dev', {
+  skip(req, res) {
+    return res.statusCode < 400;
+  },
+  stream: process.stderr,
+}));
+
+app.use(morgan('dev', {
+  skip(req, res) {
+    return res.statusCode >= 400;
+  },
+  stream: process.stdout,
+}));
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -17,8 +35,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/restaurants/', express.static(`${__dirname}/../client/dist`));
+app.use((req, res, next) => {
+  logger.error('404 page requested');
+  res.status(404).send('This page does not exist!');
+});
+
 
 app.get('/restaurants/:id', (req, res) => {
+  logger.debug('Debug statement');
+  logger.info('Info statement');
   res.sendFile(path.join(`${__dirname}/../client/dist/index.html`));
 });
 
@@ -27,29 +52,17 @@ app.get('/api/restaurants/:id/gallery', (req, res) => {
     .then((place) => {
       const s3String = 'https://s3-us-west-2.amazonaws.com/apateez-photos/';
       const restaurantPhotosArray = [];
-      for (let i = 0; i < place[0].photos.length; i += 1) {
-        restaurantPhotosArray.push(`${s3String}${place[0].photos[i]}.png`);
+      const restaurant = place[0];
+      for (let i = 0; i < restaurant.photos.length; i += 1) {
+        restaurantPhotosArray.push(`${s3String}${restaurant.photos[i]}.png`);
       }
-      res.send({ photoArray: restaurantPhotosArray, restaurantName: place[0].name, place_id: place[0].place_id });
+      logger.debug('Debug statement');
+      logger.info('Info statement');
+      res.send({ photoArray: restaurantPhotosArray, restaurantName: restaurant.name, place_id: restaurant.place_id });
     })
     .catch(err => console.log(err));
-
-  // query.exec((err, photos) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     const s3String = 'https://s3-us-west-2.amazonaws.com/apateez-photos/';
-
-  // 		const restaurantPhotosArray = [];
-  //     for (let i = 0; i < photos.photos.length; i += 1) {
-  //       // var s3String = `//s3-us-west-1.amazonaws.com/apateezgallery93/${photos.photos[i].photo_reference}.png`;
-  //       // console.log(s3String);
-  //       restaurantPhotosArray.push(`${s3String}${photos.photos[i]}.png`);
-  //     }
-  //     res.send({ photoArray: restaurantPhotosArray, restaurantName: photos.name, place_id: photos.place_id });
-  //   }
-  // });
 });
+
 app.get('/:searchValue', (req, res) => {
   const searchQuery = req.params.searchValue;
   const recursefindPlaceId = function (searchQuery) {
@@ -70,5 +83,5 @@ app.get('/:searchValue', (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`listening on port ${PORT}`);
+  logger.info(`listening on port ${PORT}`);
 });
