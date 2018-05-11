@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Lightbox from 'react-image-lightbox'
+import Lightbox from 'react-image-lightbox';
 import $ from 'jquery';
-import {Button, Icon} from 'react-materialize';
+import { Button, Icon } from 'react-materialize';
 import Modal from 'react-modal';
 import OpeningPageGalleryView from './openingGrid.jsx';
 import FullGalleryOpenGrid from './fullGalleryOpenGrid.jsx';
@@ -11,15 +11,15 @@ import Social from './social.jsx';
 import '../dist/style.css';
 
 class ApateezGallery extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      photoIndex:0,
-      isOpen:false,
+      photoIndex: 0,
+      isOpen: false,
       images: [],
-      restaurantName:"",
-      fullGalleryGrid :false,
-      place_id: "ChIJFUBxSY6AhYARwOaLV7TsLjw"
+      restaurantName: '',
+      fullGalleryGrid: false,
+      place_id: 'ChIJFUBxSY6AhYARwOaLV7TsLjw',
     };
     this.getRequestWithId = this.getRequestWithId.bind(this);
     this.clickHandle = this.clickHandle.bind(this);
@@ -27,66 +27,67 @@ class ApateezGallery extends React.Component {
     this.clickHandleView = this.clickHandleView.bind(this);
     this.searchRestaurant = this.searchRestaurant.bind(this);
   }
-  componentWillMount(){
+  componentWillMount() {
     Modal.setAppElement(document.getElementById('app'));
   }
-  componentDidMount(){
-    var id = window.location.href.split('/')[4];
-    //ajax request for getting the photos and name of restaurant 
-    window.location.href.split('/')[4]
-    this.getRequestWithId(id); 
+  componentDidMount() {
+    const id = window.location.href.split('/')[4];
+    // ajax request for getting the photos and name of restaurant
+    window.location.href.split('/')[4];
+    this.getRequestWithId(id);
   }
-  gotoHotNew(){
-    location.href = '/restaurants/' + 'ChIJA8_SN2eAhYARCIvEx44Zvfw' ;
+  gotoHotNew() {
+    location.href = '/restaurants/' + 'ChIJA8_SN2eAhYARCIvEx44Zvfw';
   }
-  gotoCitysBest(){
+  gotoCitysBest() {
     location.href = '/restaurants/' + 'ChIJUUjhfoaAhYARRuSNp1R18vs';
   }
-  searchRestaurant(searchValue){
-  
-    $.ajax({url: BASE_URL+searchValue, 
-            method: "GET", 
-            success: function(data){
-              location.href = '/restaurants/' + data.place_id;
-              console.log(data.place_id);
-            }
+  searchRestaurant(searchValue) {
+    $.ajax({
+      url: BASE_URL + searchValue,
+      method: 'GET',
+      success(data) {
+        location.href = `/restaurants/${  data.place_id}`;
+        console.log(data.place_id);
+      },
     });
   }
 
-  getRequestWithId(id){
-    var appContext = this;
-    $.ajax({url: `${BASE_URL}/api/restaurants/${id}/gallery`, 
-            method: "GET", 
-            success: function(data){
-              appContext.setState({images: data.photoArray, restaurantName: data.restaurantName, place_id:data.place_id});
-            }
+  getRequestWithId(id) {
+    const appContext = this;
+    $.ajax({
+      // url: `${BASE_URL}/api/restaurants/${id}/gallery`,
+      url: `http://localhost:3002/api/restaurants/${id}/gallery`,
+      method: 'GET',
+      success(data) {
+        console.log(data);
+        appContext.setState({ images: data.photoArray, restaurantName: data.restaurantName, place_id: data.place_id });
+      },
     });
   }
-  clickHandle(clickedIndex){
-
+  clickHandle(clickedIndex) {
     this.setState({ isOpen: true, photoIndex: clickedIndex });
-    
   }
-  clickHandleView(){
-
-    this.setState({ isOpen: false, fullGalleryGrid:true});
-    
+  clickHandleView() {
+    this.setState({ isOpen: false, fullGalleryGrid: true });
   }
 
-  clickView(){
-    this.setState({fullGalleryGrid: !this.state.fullGalleryGrid});
+  clickView() {
+    this.setState({ fullGalleryGrid: !this.state.fullGalleryGrid });
   }
-  render(){
-    
-     const { photoIndex, isOpen, images, fullGalleryGrid, restaurantName } = this.state;
-         return (
+  render() {
+    const {
+      photoIndex, isOpen, images, fullGalleryGrid, restaurantName,
+    } = this.state;
+    return (
       <div>
-       <Social/>
+             <Social />
 
-        <Header searchRestaurant = {this.searchRestaurant} gotoHotNew = {this.gotoHotNew} gotoCitysBest = {this.gotoCitysBest}/>
+             <Header searchRestaurant={this.searchRestaurant} gotoHotNew={this.gotoHotNew} gotoCitysBest={this.gotoCitysBest} />
 
-            <div>
-              <Modal isOpen={fullGalleryGrid}
+             <div>
+          <Modal
+                isOpen={fullGalleryGrid}
                 style={{
                   overlay: {
                     position: 'fixed',
@@ -95,7 +96,7 @@ class ApateezGallery extends React.Component {
                     right: 0,
                     bottom: 0,
                     backgroundColor: 'rgba(16,24,32,.95)',
-                    zIndex: 3
+                    zIndex: 3,
                   },
                   content: {
                     position: 'absolute',
@@ -111,46 +112,46 @@ class ApateezGallery extends React.Component {
                     outline: 'none',
                     padding: '0px',
                     backgroundColor: 'rgba(28, 22, 22, 0.29)',
-                    zIndex:3
+                    zIndex: 3,
 
-                  }
-                  
+                  },
+
                 }}
               >
-                <div className = "restaurantName">{restaurantName.toUpperCase()}</div>
-                <FullGalleryOpenGrid images = {images} clickHandle = {this.clickHandle}/>
-                <i className=" cancel small material-icons " onClick = {this.clickView}>cancel</i>
+                <div className="restaurantName">{restaurantName.toUpperCase()}</div>
+                <FullGalleryOpenGrid images={images} clickHandle={this.clickHandle} />
+                <i className=" cancel small material-icons " onClick={this.clickView}>cancel</i>
               </Modal>
-            </div>
-          <OpeningPageGalleryView images = {images} clickHandle = {this.clickHandle} clickView = {this.clickView}/>
-               
+        </div>
+             <OpeningPageGalleryView images={images} clickHandle={this.clickHandle} clickView={this.clickView} />
 
-        {isOpen && (
+
+             {isOpen && (
           <div>
 
-          <Lightbox
-            enableZoom= {false}
-            toolbarButtons={ [ <span className = "restaurantN">{restaurantName.toUpperCase()}</span>, <span className = "photoNum">{(photoIndex+1)+ " of "+ images.length}</span>, <i onClick = {this.clickHandleView } className="ril__toolbarItem apps small material-icons">apps</i>] }
-            mainSrc={images[photoIndex]}
-            nextSrc={images[(photoIndex + 1) % images.length]}
-            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-            onCloseRequest={() => this.setState({ isOpen: false })}
-            onMovePrevRequest={() =>
+            <Lightbox
+              enableZoom={false}
+              toolbarButtons={[<span className="restaurantN">{restaurantName.toUpperCase()}</span>, <span className="photoNum">{`${photoIndex + 1} of ${images.length}`}</span>, <i onClick={this.clickHandleView} className="ril__toolbarItem apps small material-icons">apps</i>]}
+              mainSrc={images[photoIndex]}
+              nextSrc={images[(photoIndex + 1) % images.length]}
+              prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+              onCloseRequest={() => this.setState({ isOpen: false })}
+              onMovePrevRequest={() =>
               this.setState({
                 photoIndex: (photoIndex + images.length - 1) % images.length,
               })
             }
-            onMoveNextRequest={() =>
+              onMoveNextRequest={() =>
               this.setState({
                 photoIndex: (photoIndex + 1) % images.length,
               })
             }
-          />
+            />
           </div>
         )}
-      </div>
+           </div>
     );
   }
-} 
-	
-ReactDOM.render(< ApateezGallery/>, document.getElementById('app'));
+}
+
+ReactDOM.render(<ApateezGallery />, document.getElementById('app'));
