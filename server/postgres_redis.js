@@ -6,15 +6,16 @@ const initOptions = {
 const pgp = require('pg-promise')(initOptions);
 
 const cn = {
-  host: process.env.PGRES_HOST,
-  port: process.env.PGRES_PORT,
+  host: 'localhost',
+  port: 5432,
   database: 'apateez',
 };
 const db = pgp(cn);
 const redis = require('redis');
 
 const { REDIS_PORT } = process.env;
-const client = redis.createClient(REDIS_PORT);
+console.log('REDIS PORT: ', process.env.DEV_REDIS_PORT);
+const client = redis.createClient(6379);
 
 const getFromDB = (req, res) => {
   db.any('SELECT * FROM gallery WHERE place_id = $1', req.params.id)
@@ -41,7 +42,7 @@ const getFromCache = (req, res) => {
   client.get(req.params.id, (err, place) => {
     if (place) {
       res.status(200);
-      res.send(place);
+      res.send(JSON.parse(place));
     } else {
       getFromDB(req, res);
     }

@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('newrelic');
 const express = require('express');
 const http = require('http');
@@ -13,7 +14,8 @@ const db = require('./postgres_redis.js');
 http.globalAgent.maxSockets = 50;
 
 const app = express();
-const { PORT } = process.env;
+const PORT = 3002;
+console.log('BASE URL: ', process.env.DEV_BASE_URL);
 
 app.use(cors());
 app.use(compression());

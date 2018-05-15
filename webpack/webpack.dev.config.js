@@ -2,8 +2,6 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const base = require('./webpack.base.config');
 
-console.log('In Development mode');
-
 module.exports = merge(base, {
   plugins: [
     new webpack.DefinePlugin({
