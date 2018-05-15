@@ -1,5 +1,4 @@
 const promise = require('bluebird');
-require('dotenv').config();
 
 const initOptions = {
   promiseLib: promise,
@@ -7,14 +6,14 @@ const initOptions = {
 const pgp = require('pg-promise')(initOptions);
 
 const cn = {
-  host: 'localhost',
-  port: 5432,
+  host: process.env.PGRES_HOST,
+  port: process.env.PGRES_PORT,
   database: 'apateez',
 };
 const db = pgp(cn);
 const redis = require('redis');
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379;
+const { REDIS_PORT } = process.env;
 const client = redis.createClient(REDIS_PORT);
 
 const getFromDB = (req, res) => {
@@ -32,6 +31,7 @@ const getFromDB = (req, res) => {
         place_id: restaurant.place_id,
       };
       client.setex(req.params.id, 60 * 60, JSON.stringify(obj));
+      res.status(200);
       res.send(obj);
     })
     .catch(err => console.log(err));
@@ -40,6 +40,7 @@ const getFromDB = (req, res) => {
 const getFromCache = (req, res) => {
   client.get(req.params.id, (err, place) => {
     if (place) {
+      res.status(200);
       res.send(place);
     } else {
       getFromDB(req, res);
