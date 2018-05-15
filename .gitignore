@@ -2,6 +2,7 @@
 ## MAC files ##
 .DS_Store
 newrelic.js
+*.env
 
 ## NPM ##
 npm

@@ -10,4 +10,4 @@ config:
 scenarios:
   - flow:
     - get:
-        url: "/api/restaurants/1"
+        url: '/api/restaurants/2342/gallery'
