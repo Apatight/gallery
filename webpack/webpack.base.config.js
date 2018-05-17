@@ -28,13 +28,13 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        PORT: JSON.stringify(process.env.PORT),
-        NEW_RELIC_LICENSE_KEY: JSON.stringify(process.env.NEW_RELIC_LICENSE_KEY),
-      },
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    //     PORT: JSON.stringify(process.env.PORT),
+    //     NEW_RELIC_LICENSE_KEY: JSON.stringify(process.env.NEW_RELIC_LICENSE_KEY),
+    //   },
+    // }),
     new MinifyPlugin({
       mangle: { topLevel: true },
     }),

@@ -57,7 +57,7 @@ class ApateezGallery extends React.Component {
     const appContext = this;
     $.ajax({
       // url: `${BASE_URL}/api/restaurants/${id}/gallery`,
-      url: `http://localhost:3002/api/restaurants/${id}/gallery`,
+      url: `http://13.57.228.158/3002/api/restaurants/${id}/gallery`,
       method: 'GET',
       success(data) {
         console.log(data);

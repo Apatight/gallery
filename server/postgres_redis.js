@@ -6,16 +6,14 @@ const initOptions = {
 const pgp = require('pg-promise')(initOptions);
 
 const cn = {
-  host: 'localhost',
+  host: 'db',
   port: 5432,
   database: 'apateez',
 };
 const db = pgp(cn);
 const redis = require('redis');
 
-const { REDIS_PORT } = process.env;
-console.log('REDIS PORT: ', process.env.DEV_REDIS_PORT);
-const client = redis.createClient(6379);
+const client = redis.createClient(6379, 'redis');
 
 const getFromDB = (req, res) => {
   db.any('SELECT * FROM gallery WHERE place_id = $1', req.params.id)
@@ -50,18 +48,18 @@ const getFromCache = (req, res) => {
 };
 
 const search = (req, res) => {
-  const recursefindPlaceId = (q) => {
+  const recurseFindPlaceId = (q) => {
     db.any('SELECT * FROM gallery WHERE gallery.name=$1', q)
       .then((place) => {
         if (place) {
           res.send({ place_id: place.place_id });
         } else {
-          recursefindPlaceId(q.slice(0, -1));
+          recurseFindPlaceId(q.slice(0, -1));
         }
       })
       .catch(err => console.log(err));
   };
-  recursefindPlaceId(req.params.searchValue);
+  recurseFindPlaceId(req.params.searchValue);
 };
 
 

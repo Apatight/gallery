@@ -1,24 +1,27 @@
 require('dotenv').config();
 require('newrelic');
 const express = require('express');
+
+const app = express();
+const compression = require('compression');
+
+app.use(compression());
 const http = require('http');
 const path = require('path');
 
 // middleware
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const compression = require('compression');
+
 
 const db = require('./postgres_redis.js');
 
 http.globalAgent.maxSockets = 50;
 
-const app = express();
 const PORT = 3002;
-console.log('BASE URL: ', process.env.DEV_BASE_URL);
 
-app.use(cors());
 app.use(compression());
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/restaurants/', express.static(`${__dirname}/../client/dist`));

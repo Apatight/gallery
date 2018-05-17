@@ -6,11 +6,11 @@
   "scripts": {
     "lint": "eslint . --fix",
     "build:dev": "cross-env NODE_ENV=development env-cmd .env webpack -d --watch --config ./webpack",
-    "build:prod": "cross-env NODE_ENV=production env-cmd .env webpack -p --config ./webpack",
-    "start": "nodemon server/index.js",
+    "build:prod": "cross-env NODE_ENV=production env-cmd .env webpack --config ./webpack",
+    "start": "node server/index.js",
     "test": "cross-env NODE_ENV=test env-cmd .env jest --watch --coverage",
     "seed": "node database/seed.js",
-    "docker": "npm run build:prod && npm run seed & npm start"
+    "docker": "npm run build:prod && npm start"
   },
   "author": "Pooja Kodavanti",
   "license": "ISC",

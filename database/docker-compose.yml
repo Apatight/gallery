@@ -1,0 +1,9 @@
+version: '3'
+services:
+  db:
+    image: postgres-latest
+    environment:
+      POSTGRES_DB: apatight
+      POSTGRES_USER: pooja
+      POSTGRES_PASSWORD: oliver
+    restart: always
