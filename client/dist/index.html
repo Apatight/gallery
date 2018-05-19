@@ -12,8 +12,14 @@
 </head>
 <body>
   <div id="app"></div>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-  <script type="text/javascript" src="http://13.57.228.158:3002/restaurants/bundle.js"></script>
+  <!-- <script type="text/javascript" src="http://52.53.148.145:3002/restaurants/bundle.js"></script> -->
+  <script type="text/javascript" src="http://localhost:3002/restaurants/app.js"></script>
+  <script>
+    ReactDOM.render(React.createElement(Gallery), document.getElementById('app'));
+  </script>
 </body>
 </html>

@@ -6,16 +6,22 @@ const initOptions = {
 const pgp = require('pg-promise')(initOptions);
 
 const cn = {
-  host: 'db',
+  // host: '54.153.68.10',
+  host: 'localhost',
   port: 5432,
   database: 'apateez',
+  // database: 'apatight',
+  // user: 'pooja',
+  // password: 'shturve',
 };
 const db = pgp(cn);
 const redis = require('redis');
 
-const client = redis.createClient(6379, 'redis');
+// const client = redis.createClient(6379, 'redis');
+const client = redis.createClient(6379, 'localhost');
 
 const getFromDB = (req, res) => {
+  console.log(req.params.id);
   db.any('SELECT * FROM gallery WHERE place_id = $1', req.params.id)
     .then((place) => {
       const s3String = 'https://s3-us-west-2.amazonaws.com/apateez-photos/';

@@ -8,18 +8,19 @@ import OpeningPageGalleryView from './openingGrid.jsx';
 import FullGalleryOpenGrid from './fullGalleryOpenGrid.jsx';
 import Header from './header.jsx';
 import Social from './social.jsx';
-import '../dist/style.css';
+// import '../dist/style.css';
 
-class ApateezGallery extends React.Component {
+export default class ApateezGallery extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.state = {
       photoIndex: 0,
       isOpen: false,
-      images: [],
-      restaurantName: '',
+      images: this.props.images || [],
+      restaurantName: this.props.restaurantName || '',
       fullGalleryGrid: false,
-      place_id: '1',
+      place_id: this.props.place_id || 1,
     };
     this.getRequestWithId = this.getRequestWithId.bind(this);
     this.clickHandle = this.clickHandle.bind(this);
@@ -27,14 +28,15 @@ class ApateezGallery extends React.Component {
     this.clickHandleView = this.clickHandleView.bind(this);
     this.searchRestaurant = this.searchRestaurant.bind(this);
   }
-  componentWillMount() {
-    Modal.setAppElement(document.getElementById('app'));
-  }
+  // componentWillMount() {
+  //   Modal.setAppElement(document.getElementById('app'));
+  // }
   componentDidMount() {
     const id = window.location.href.split('/')[4];
     // ajax request for getting the photos and name of restaurant
     window.location.href.split('/')[4];
-    this.getRequestWithId(id);
+    // this.getRequestWithId(id);
+    Modal.setAppElement(document.getElementById('app'));
   }
   gotoHotNew() {
     location.href = '/restaurants/' + '2342';
@@ -44,7 +46,7 @@ class ApateezGallery extends React.Component {
   }
   searchRestaurant(searchValue) {
     $.ajax({
-      url: BASE_URL + searchValue,
+      url: 'localhost' + searchValue,
       method: 'GET',
       success(data) {
         location.href = `/restaurants/${data.place_id}`;
@@ -56,8 +58,7 @@ class ApateezGallery extends React.Component {
   getRequestWithId(id) {
     const appContext = this;
     $.ajax({
-      // url: `${BASE_URL}/api/restaurants/${id}/gallery`,
-      url: `http://13.57.228.158/3002/api/restaurants/${id}/gallery`,
+      url: `http://localhost:3002/api/restaurants/${id}/gallery`,
       method: 'GET',
       success(data) {
         console.log(data);
@@ -79,6 +80,7 @@ class ApateezGallery extends React.Component {
     const {
       photoIndex, isOpen, images, fullGalleryGrid, restaurantName,
     } = this.state;
+    console.log('IMAGES RENDER: ', images);
     return (
       <div>
         <Social />
@@ -154,4 +156,4 @@ class ApateezGallery extends React.Component {
   }
 }
 
-ReactDOM.render(<ApateezGallery />, document.getElementById('app'));
+// ReactDOM.render(<ApateezGallery />, document.getElementById('app'));

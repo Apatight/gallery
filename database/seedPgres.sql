@@ -1,8 +1,10 @@
-CREATE DATABASE apateez IF NOT EXISTS;
+CREATE DATABASE apatight IF NOT EXISTS;
 
-\connect apateez;
+\connect apatight;
 
-CREATE TABLE gallery IF NOT EXISTS (
+DROP TABLE IF EXISTS gallery;
+
+CREATE TABLE gallery (
     "place_id" int,
     "name" text,
     "photos" text[],

@@ -1,9 +1,11 @@
 version: '3'
 services:
-  db:
-    image: postgres-latest
+  postgres:
+    image: postgres:latest
     environment:
       POSTGRES_DB: apatight
       POSTGRES_USER: pooja
-      POSTGRES_PASSWORD: oliver
+      POSTGRES_PASSWORD: shturve
     restart: always
+    ports:
+        - "5432:5432"
